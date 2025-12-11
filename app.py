@@ -1,5 +1,5 @@
 # app.py
-# Medicare Fraud Detection
+# Medicare Fraud Detection – Streamlit Tabbed App with Login
 
 from pathlib import Path
 import textwrap
@@ -41,8 +41,55 @@ sns.set(style="whitegrid")
 RANDOM_STATE = 42
 
 # -----------------------------------------------------------------------------
-# Data paths (you can change the default to your own folder)
+# Login handling
 # -----------------------------------------------------------------------------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if "username" not in st.session_state:
+    st.session_state.username = ""
+
+
+def login_screen():
+    st.title("Login – Medicare Fraud Detection App")
+
+    st.write("Please enter your credentials to continue.")
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    login_btn = st.button("Login")
+
+    if login_btn:
+        if username == "srini" and password == "123":
+            st.session_state.logged_in = True
+            st.session_state.username = username
+            st.success("Login successful.")
+            st.rerun()
+        else:
+            st.error("Authentication failed")
+
+
+# If not logged in, show login page only
+if not st.session_state.logged_in:
+    login_screen()
+    st.stop()
+
+# -----------------------------------------------------------------------------
+# Logout button (shown only after login)
+# -----------------------------------------------------------------------------
+with st.sidebar:
+    if st.session_state.username:
+        st.markdown(f"**Logged in as:** {st.session_state.username}")
+    if st.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.rerun()
+
+# -----------------------------------------------------------------------------
+# Data paths (relative so deployment works)
+# -----------------------------------------------------------------------------
+# Use a "data" folder located next to app.py
 DEFAULT_DATA_DIR = Path(__file__).parent / "data"
 
 # Train files
@@ -281,7 +328,7 @@ Classification Report:
 
 
 # -----------------------------------------------------------------------------
-# Session-state setup
+# Session-state setup for data
 # -----------------------------------------------------------------------------
 if "provider" not in st.session_state:
     st.session_state.provider = None
@@ -293,7 +340,7 @@ if "provider" not in st.session_state:
     st.session_state.last_metrics = None
 
 # -----------------------------------------------------------------------------
-# Layout – Tabs (as in the screenshot)
+# Layout – Tabs
 # -----------------------------------------------------------------------------
 st.title("Health Insurance Fraud Detection")
 
@@ -527,11 +574,13 @@ with tab_models:
             st.write(f"F1-score: {metrics['f1']:.3f}")
 
             st.markdown("**Confusion Matrix**")
-            st.write(pd.DataFrame(
-                metrics["cm"],
-                index=["Actual 0", "Actual 1"],
-                columns=["Pred 0", "Pred 1"],
-            ))
+            st.write(
+                pd.DataFrame(
+                    metrics["cm"],
+                    index=["Actual 0", "Actual 1"],
+                    columns=["Pred 0", "Pred 1"],
+                )
+            )
 
             st.markdown("**Classification Report**")
             st.text(metrics["report"])
@@ -556,7 +605,6 @@ with tab_reports:
     with col1:
         if st.button("Run Full Pipeline (Random Forest)"):
             try:
-                # Reload and run everything in one go
                 data_dir = Path(data_dir_str)
 
                 provider = read_csv_safely(data_dir / TRAIN_PROVIDER)
