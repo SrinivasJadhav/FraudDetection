@@ -1,2 +1,8 @@
 scikit-learn==1.4.2
 imbalanced-learn==0.12.3
+streamlit
+numpy
+pandas
+matplotlib
+seaborn
+python-dotenv
