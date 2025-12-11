@@ -1,5 +1,6 @@
-scikit-learn==1.4.2
-imbalanced-learn==0.12.3
+scikit-learn==1.6.0
+imbalanced-learn==0.13.0
+
 streamlit
 numpy
 pandas
