@@ -670,13 +670,15 @@ with tab_help:
 
 Use the tabs from left to right:
 
-1. **Overview** – High-level description of the system and pipeline.  
-2. **Load Data** – Load raw CSVs and build provider-level features.  
-3. **Display & Explore** – Preview tables, summary statistics, histograms, and boxplots.  
-4. **Clean & Preprocess** – Build the cleaned feature table ready for modeling.  
-5. **Analytics & Models** – Train Logistic Regression, Random Forest, or MLP with SMOTE and view metrics/ROC curves.  
-6. **Reports & Full Pipeline** – Run the full pipeline end-to-end and generate a text report.  
-7. **Help** – This page.
+1. Login page. Enter valid username and password to access the app. If the credentials are not matched, user will got Authentication Error.
+2. **Overview** – High-level description of the system and pipeline.  
+3. **Load Data** – Load raw CSVs and build provider-level features.  
+4. **Display & Explore** – Preview tables, summary statistics, histograms, and boxplots.  
+5. **Clean & Preprocess** – Build the cleaned feature table ready for modeling.  
+6. **Analytics & Models** – Train Logistic Regression, Random Forest, or MLP with SMOTE and view metrics/ROC curves.  
+7. **Reports & Full Pipeline** – Run the full pipeline end-to-end and generate a text report.  
+8. **Help** – This page.
+9. **Logout** – Use the Logout button in the sidebar to end your session.
 
 Recommended order:  
 **Overview → Load Data → Display & Explore → Clean & Preprocess → Analytics & Models → Reports & Full Pipeline → Help (anytime).**
